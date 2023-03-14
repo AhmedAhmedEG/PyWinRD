@@ -1,5 +1,5 @@
 # Description
-Python library that provides remote debugging capabilities for python files between two Windows machines.
+Python library that provides remote debugging capabilities for python files between two Windows machines, independent of the IDE you are using.
 
 # How to install
 ```pip install pywinrd```
