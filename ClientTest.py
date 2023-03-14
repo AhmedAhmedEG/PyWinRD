@@ -1,6 +1,6 @@
 from PyWinRD.Client import WinRDClient
 
-client = WinRDClient(host='45.47.127.246', password='test')
+client = WinRDClient(password='test')
 
 client.connect()
 
