@@ -1,35 +1,33 @@
-import sys
+import select
 
 OUT_START = b'SFO\00'
 ERR_START = b'SOE\00'
-IN_START = b'SOI\00'
 
+PORTION_END = b'PE\00'
 MESSAGE_END = b'ME\00'
-SESSION_END = b'SE\00'
+
+OPERATION_START = b'SS\00'
+OPERATION_END = b'SE\00'
 
 SOCKET_DELAY = 0.005
-
-STD_OUT = sys.stdout
-STD_ERR = sys.stderr
-STD_IN = sys.stdin
 
 
 def recv_all(soc):
     data = b''
+
     while True:
-        message = soc.recv(10 * 1024)
-        data = b''.join([data, message])
+        ready = select.select([soc], [], [], 1)[0]
 
-        if data.endswith(MESSAGE_END):
-            data = data.split(MESSAGE_END)
-            data.pop()
-            break
+        if ready:
+            message = soc.recv(10 * 1024)
+            data = b''.join([data, message])
 
-        elif not data:
-            raise ConnectionLost
+            if data.endswith(MESSAGE_END):
+                data = data.split(MESSAGE_END)
+                data.pop()
+                break
+
+            elif not data:
+                raise ConnectionResetError
 
     return data
-
-
-class ConnectionLost(Exception):
-    pass

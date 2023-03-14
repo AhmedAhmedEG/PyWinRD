@@ -1,11 +1,4 @@
-s = 'Enter the next input prompt: '
+for i in range(10):
+    print(i + 1)
 
-while True:
-
-    if s == 'q':
-        break
-
-    else:
-        s = input(s)
-
-print('Iam done.')
+print('Printing test is done.')
